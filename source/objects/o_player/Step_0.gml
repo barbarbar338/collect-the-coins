@@ -13,19 +13,20 @@ h_spd = dir * m_spd;
 if (v_spd < 10) v_spd += grav;
 if (place_meeting(x, y + 1, o_solid)) j_limit = initial_j_limit;
 if (key_jump and j_limit > 0) {
+	audio_play_sound(snd_jump, 1, 0)
 	v_spd = key_jump * -j_spd * j_limit;
 	j_limit--;
 }
 
 // horizontal collisions
-if (place_meeting(x + h_spd, y, o_solid)) {
-	while(!place_meeting(x + sign(h_spd), y, o_solid)) {
-		x += sign(h_spd);
+if (place_meeting(x + h_spd + (sign(h_spd) * coins), y, o_solid)) {
+	while(!place_meeting(x + sign(h_spd + (sign(h_spd) * coins)), y, o_solid)) {
+		x += sign(h_spd + (sign(h_spd) * coins));
 	}
 	h_spd = 0;
 }
 
-x += h_spd;
+x += h_spd + (sign(h_spd) * coins);
 
 // vertical collisions
 if (place_meeting(x, y + v_spd, o_solid)) {
